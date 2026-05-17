@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import OpenAI from "openai";
-import { validatePinKeywords } from "./schema";
+import { validatePinKeywords } from "./schema.js";
 
 export type KeywordType = "seasonal" | "evergreen" | "trending";
 

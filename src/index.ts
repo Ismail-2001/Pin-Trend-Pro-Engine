@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { PinTrendProAgent } from "./PinTrendAgent";
+import { PinTrendProAgent } from "./PinTrendAgent.js";
 
 const apiKey = process.env.DEEPSEEK_API_KEY || process.env.OPENAI_API_KEY;
 if (!apiKey) {
