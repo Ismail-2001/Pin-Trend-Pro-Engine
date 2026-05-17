@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "./dist"
+  },
+  "include": ["next-env.d.ts", "src/**/*"],
+  "exclude": ["node_modules", "dist", "tsconfig.tsbuildinfo"]
+}
