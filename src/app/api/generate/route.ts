@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PinTrendProAgent } from "../../../PinTrendAgent.js";
+import { PinTrendProAgent } from "../../../PinTrendAgent";
 
 interface GenerateBody {
   count?: number;
@@ -14,14 +14,14 @@ interface GenerateBody {
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as GenerateBody;
-    const openaiKey = body.apiKey ?? process.env.OPENAI_API_KEY;
+    const resolvedKey = body.apiKey ?? process.env.DEEPSEEK_API_KEY ?? process.env.OPENAI_API_KEY;
 
-    if (!openaiKey) {
-      return NextResponse.json({ error: "OPENAI_API_KEY is required in env or request body." }, { status: 400 });
+    if (!resolvedKey) {
+      return NextResponse.json({ error: "DEEPSEEK_API_KEY or OPENAI_API_KEY is required in env or request body." }, { status: 400 });
     }
 
     const prompt = await PinTrendProAgent.loadPrompt();
-    const agent = new PinTrendProAgent(openaiKey, prompt);
+    const agent = new PinTrendProAgent(resolvedKey, prompt);
 
     const count = body.count ?? 6;
     const seasonal = body.seasonal ?? 0;

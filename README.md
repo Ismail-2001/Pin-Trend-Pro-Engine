@@ -12,18 +12,26 @@ A small Node.js/TypeScript starter agent for PinTrend Pro, the Mexican home deco
 
 ## Run
 
-- Development:
+- Development (Next.js app):
 
   npm run dev
 
-- Build and run:
+- Build the Next.js app:
 
   npm run build
+
+- Run the Next.js production server:
+
   npm start
+
+- Run the standalone CLI:
+
+  npm run cli
 
 ## What this does
 
 - Loads the PinTrend Pro prompt from `pintrend-pro.agent.md`
+- Provides a Next.js API route at `/api/generate` for server-side keyword generation
 - Sends a user query to OpenAI via `src/PinTrendAgent.ts`
 - Prints strict JSON that matches the agent schema
 

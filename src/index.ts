@@ -1,9 +1,9 @@
 import "dotenv/config";
-import { PinTrendProAgent } from "./PinTrendAgent.js";
+import { PinTrendProAgent } from "./PinTrendAgent";
 
-const apiKey = process.env.OPENAI_API_KEY;
+const apiKey = process.env.DEEPSEEK_API_KEY || process.env.OPENAI_API_KEY;
 if (!apiKey) {
-  throw new Error("OPENAI_API_KEY is required. Set it in .env or your environment.");
+  throw new Error("Either DEEPSEEK_API_KEY or OPENAI_API_KEY is required. Set it in .env or your environment.");
 }
 
 const promptText = await PinTrendProAgent.loadPrompt();

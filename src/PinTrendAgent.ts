@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import OpenAI from "openai";
-import { validatePinKeywords } from "./schema.js";
+import { validatePinKeywords } from "./schema";
 
 export type KeywordType = "seasonal" | "evergreen" | "trending";
 
@@ -20,9 +20,21 @@ export interface PinKeyword {
 export class PinTrendProAgent {
   private client: OpenAI;
   private promptText: string;
+  private model: string;
 
   constructor(apiKey: string, promptText: string) {
-    this.client = new OpenAI({ apiKey });
+    const isDeepSeek = apiKey === process.env.DEEPSEEK_API_KEY || (!process.env.OPENAI_API_KEY && !!process.env.DEEPSEEK_API_KEY) || apiKey.includes("deepseek");
+    
+    if (isDeepSeek) {
+      this.client = new OpenAI({
+        apiKey,
+        baseURL: "https://api.deepseek.com/v1"
+      });
+      this.model = "deepseek-chat";
+    } else {
+      this.client = new OpenAI({ apiKey });
+      this.model = "gpt-4o-mini";
+    }
     this.promptText = promptText;
   }
 
@@ -48,7 +60,7 @@ export class PinTrendProAgent {
     const messages = this.buildMessages(`${userQuery}\n\nGenerate ${count} keyword objects in strict JSON using the exact schema defined in the agent prompt.`);
 
     const response = await this.client.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: this.model,
       // messages shape is enforced at runtime; cast to any to satisfy SDK types
       messages: messages as any,
       max_tokens: 1400,
